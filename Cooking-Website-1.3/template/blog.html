@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog - Culinary Delights</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Navigation -->
+  <nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-bold text-indigo-600">Culinary Delights</a>
+      <div class="space-x-6 hidden md:flex">
+        <a href="index.html" class="hover:text-indigo-600">Home</a>
+        <a href="recipes.html" class="hover:text-indigo-600">Recipes</a>
+        <a href="blog.html" class="text-indigo-600 font-semibold">Blog</a>
+        <a href="about.html" class="hover:text-indigo-600">About</a>
+        <a href="contact.html" class="hover:text-indigo-600">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Blog Header -->
+  <header class="text-center py-14 bg-white shadow-sm">
+    <h1 class="text-5xl font-bold mb-3">Community Blog</h1>
+    <p class="text-lg text-gray-500">Share your own recipes, stories, and cooking experiences!</p>
+  </header>
+
+  <!-- User Blog Submission Form -->
+  <section class="max-w-4xl mx-auto px-4 py-12 bg-white shadow-md rounded-xl mt-8">
+    <h2 class="text-2xl font-bold mb-6 text-indigo-700">📝 Submit Your Blog</h2>
+    <form action="/submit-blog" method="POST" class="space-y-6">
+      <div>
+        <label for="title" class="block text-sm font-medium text-gray-700">Blog Title</label>
+        <input type="text" name="title" id="title" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"/>
+      </div>
+      <div>
+        <label for="author" class="block text-sm font-medium text-gray-700">Your Name</label>
+        <input type="text" name="author" id="author" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"/>
+      </div>
+      <div>
+        <label for="content" class="block text-sm font-medium text-gray-700">Your Blog Content</label>
+        <textarea name="content" id="content" rows="6" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+      </div>
+      <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700">Submit Blog</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white mt-16">
+    <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 class="text-lg font-semibold mb-2">Culinary Delights</h3>
+        <p class="text-gray-400">Where food lovers share and connect.</p>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-2">Quick Links</h3>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="recipes.html" class="hover:text-white">Recipes</a></li>
+          <li><a href="about.html" class="hover:text-white">About</a></li>
+          <li><a href="contact.html" class="hover:text-white">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-2">Stay Connected</h3>
+        <div class="flex space-x-4 text-gray-400">
+          <a href="#" class="hover:text-white">Instagram</a>
+          <a href="#" class="hover:text-white">Facebook</a>
+          <a href="#" class="hover:text-white">YouTube</a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center text-gray-500 text-sm py-4 border-t border-gray-700">
+      © 2025 Culinary Delights. Built by Yasin Yehia.
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes - Culinary Delights</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        display: ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .recipe-card {
+            transition: all 0.3s ease;
+        }
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .category-filter.active {
+            background-color: #0ea5e9;
+            color: white;
+        }
+        .favorite-btn.active {
+            color: #ef4444;
+        }
+        .star-rating .star {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .star-rating .star:hover {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="/" class="flex-shrink-0 flex items-center">
+                        <span class="font-display text-2xl font-bold text-primary-600">Culinary Delights</span>
+                    </a>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="/" class="text-gray-500 hover:text-primary-600 px-3 py-2 text-sm font-medium">Home</a>
+                    <a href="/recipes" class="border-primary-500 text-primary-600 border-b-2 px-3 py-2 text-sm font-medium">Recipes</a>
+                    <a href="/about" class="text-gray-500 hover:text-primary-600 px-3 py-2 text-sm font-medium">About</a>
+                    <a href="/contact" class="text-gray-500 hover:text-primary-600 px-3 py-2 text-sm font-medium">Contact</a>
+                    <button class="ml-8 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700">
+                        Sign up
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        <!-- Hero Section -->
+        <section class="mb-16 text-center">
+            <h1 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-4">Discover Culinary Excellence</h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Explore our collection of chef-curated recipes to elevate your cooking skills</p>
+        </section>
+
+        <!-- Search and Filters -->
+        <section class="mb-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <!-- Search Bar -->
+                <div class="relative w-full md:w-96">
+                    <input 
+                        type="text" 
+                        id="search-recipes" 
+                        placeholder="Search recipes..." 
+                        class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    >
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="flex flex-wrap justify-center gap-2">
+                    <button class="category-filter px-4 py-2 bg-primary-600 text-white rounded-full hover:bg-primary-700 transition active" data-category="all">All</button>
+                    <button class="category-filter px-4 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition" data-category="breakfast">Breakfast</button>
+                    <button class="category-filter px-4 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition" data-category="main">Main Dishes</button>
+                    <button class="category-filter px-4 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition" data-category="dessert">Desserts</button>
+                    <button class="category-filter px-4 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition" data-category="vegetarian">Vegetarian</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recipe Grid -->
+        <section>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Recipe Card 1 -->
+                <div class="recipe-card bg-white rounded-xl shadow-md overflow-hidden" data-category="main" data-recipe="mediterranean-salad">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Mediterranean Salad" 
+                             class="w-full h-64 object-cover">
+                        <button class="favorite-btn absolute top-4 right-4 bg-white/80 p-2 rounded-full text-gray-700 hover:text-red-500 transition">
+                            <i class="far fa-heart text-xl"></i>
+                        </button>
+                        <span class="absolute bottom-4 left-4 bg-white/90 px-3 py-1 rounded-full text-sm font-medium">Main Dish</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-semibold text-gray-900 mb-2">Mediterranean Salad</h3>
+                        <div class="flex items-center text-gray-600 mb-4 gap-4">
+                            <span class="flex items-center"><i class="far fa-clock mr-1"></i> 15 mins</span>
+                            <span class="flex items-center"><i class="fas fa-utensils mr-1"></i> 4 servings</span>
+                        </div>
+                        <p class="text-gray-600 mb-4 line-clamp-3">A fresh and healthy Mediterranean salad with feta cheese, olives, cherry tomatoes, cucumber, and a light lemon-olive oil vinaigrette.</p>
+                        
+                        <!-- Star Rating -->
+                        <div class="star-rating flex items-center mb-4">
+                            <div class="flex mr-2">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="far fa-star text-yellow-400"></i>
+                            </div>
+                            <span class="text-sm text-gray-500">(24 reviews)</span>
+                        </div>
+                        
+                        <button class="view-recipe-btn w-full bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium transition">
+                            View Recipe
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recipe Card 2 -->
+                <div class="recipe-card bg-white rounded-xl shadow-md overflow-hidden" data-category="main" data-recipe="homemade-pizza">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Homemade Pizza" 
+                             class="w-full h-64 object-cover">
+                        <button class="favorite-btn absolute top-4 right-4 bg-white/80 p-2 rounded-full text-gray-700 hover:text-red-500 transition">
+                            <i class="far fa-heart text-xl"></i>
+                        </button>
+                        <span class="absolute bottom-4 left-4 bg-white/90 px-3 py-1 rounded-full text-sm font-medium">Main Dish</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-semibold text-gray-900 mb-2">Homemade Pizza</h3>
+                        <div class="flex items-center text-gray-600 mb-4 gap-4">
+                            <span class="flex items-center"><i class="far fa-clock mr-1"></i> 45 mins</span>
+                            <span class="flex items-center"><i class="fas fa-utensils mr-1"></i> 6 servings</span>
+                        </div>
+                        <p class="text-gray-600 mb-4 line-clamp-3">Classic Italian pizza with a crispy homemade crust, fresh tomato sauce, mozzarella cheese, and your choice of toppings.</p>
+                        
+                        <!-- Star Rating -->
+                        <div class="star-rating flex items-center mb-4">
+                            <div class="flex mr-2">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star-half-alt text-yellow-400"></i>
+                            </div>
+                            <span class="text-sm text-gray-500">(36 reviews)</span>
+                        </div>
+                        
+                        <button class="view-recipe-btn w-full bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium transition">
+                            View Recipe
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recipe Card 3 -->
+                <div class="recipe-card bg-white rounded-xl shadow-md overflow-hidden" data-category="dessert" data-recipe="chocolate-lava-cake">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1564355808539-22fda35bed7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Chocolate Lava Cake" 
+                             class="w-full h-64 object-cover">
+                        <button class="favorite-btn absolute top-4 right-4 bg-white/80 p-2 rounded-full text-gray-700 hover:text-red-500 transition">
+                            <i class="far fa-heart text-xl"></i>
+                        </button>
+                        <span class="absolute bottom-4 left-4 bg-white/90 px-3 py-1 rounded-full text-sm font-medium">Dessert</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-semibold text-gray-900 mb-2">Chocolate Lava Cake</h3>
+                        <div class="flex items-center text-gray-600 mb-4 gap-4">
+                            <span class="flex items-center"><i class="far fa-clock mr-1"></i> 30 mins</span>
+                            <span class="flex items-center"><i class="fas fa-utensils mr-1"></i> 4 servings</span>
+                        </div>
+                        <p class="text-gray-600 mb-4 line-clamp-3">Decadent chocolate cakes with a molten center, perfect for special occasions or when you need a chocolate fix.</p>
+                        
+                        <!-- Star Rating -->
+                        <div class="star-rating flex items-center mb-4">
+                            <div class="flex mr-2">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                            </div>
+                            <span class="text-sm text-gray-500">(42 reviews)</span>
+                        </div>
+                        
+                        <button class="view-recipe-btn w-full bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium transition">
+                            View Recipe
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <section class="mt-12 flex justify-center">
+            <nav class="flex items-center space-x-2">
+                <button class="px-3 py-1 rounded-md border border-gray-300 text-gray-500 hover:bg-gray-50">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="px-3 py-1 rounded-md bg-primary-600 text-white">1</button>
+                <button class="px-3 py-1 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50">2</button>
+                <button class="px-3 py-1 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50">3</button>
+                <span class="px-2 text-gray-500">...</span>
+                <button class="px-3 py-1 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50">8</button>
+                <button class="px-3 py-1 rounded-md border border-gray-300 text-gray-500 hover:bg-gray-50">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </nav>
+        </section>
+    </main>
+
+    <!-- Recipe Modal -->
+    <div id="recipe-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+
+            <!-- Modal content -->
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="font-display text-2xl font-bold text-gray-900" id="modal-title">Recipe Details</h3>
+                                <button id="close-modal" class="text-gray-400 hover:text-gray-500">
+                                    <i class="fas fa-times text-xl"></i>
+                                </button>
+                            </div>
+                            
+                            <div id="recipe-modal-content" class="mt-2">
+                                <!-- Content will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <h3 class="font-display text-xl mb-4">Culinary Delights</h3>
+                    <p class="text-gray-400">Bringing professional cooking techniques to home kitchens since 2023.</p>
+                </div>
+                <div>
+                    <h3 class="font-display text-xl mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="/recipes" class="text-gray-400 hover:text-white transition">Recipes</a></li>
+                        <li><a href="/about" class="text-gray-400 hover:text-white transition">About</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-display text-xl mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-4">Subscribe to get weekly recipes and cooking tips.</p>
+                    <form class="space-y-4">
+                        <input type="email" placeholder="Your email" class="w-full px-4 py-2 rounded text-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                        <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded transition">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400">&copy; 2023 Culinary Delights. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Basic modal functionality
+            const modal = document.getElementById('recipe-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalContent = document.getElementById('recipe-modal-content');
+
+            document.querySelectorAll('.view-recipe-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const recipeId = button.closest('.recipe-card').dataset.recipe;
+                    modalTitle.textContent = button.closest('.recipe-card').querySelector('h3').textContent;
+                    modalContent.innerHTML = '<div class="animate-pulse flex flex-col items-center justify-center py-12"><i class="fas fa-utensils text-4xl text-primary-500 mb-4"></i><p class="text-gray-600">Loading recipe...</p></div>';
+                    modal.classList.remove('hidden');
+                    
+                    // Simulated loading of recipe content (replace with actual fetching logic in real implementation)
+                    setTimeout(() => {
+                        modalContent.innerHTML = renderRecipeSteps(recipeId);
+                    }, 800);
+                });
+            });
+
+            closeModalBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+
+            // Modal close when clicking outside content
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+
+            // Recipe Steps Rendering Function
+            function renderRecipeSteps(recipeId) {
+                const recipeDatabase = {
+                    'mediterranean-salad': {
+                        steps: [
+                            { title: "Prepare the Vegetables", description: "Wash and dry all the vegetables. Halve the cherry tomatoes, dice the cucumber, and thinly slice the red onion.", image: "https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 5, ingredients: ["Cherry tomatoes", "Cucumber", "Red onion"] },
+                            { title: "Make the Dressing", description: "In a small bowl, whisk together olive oil, lemon juice, oregano, salt, and pepper until well combined.", image: "https://images.unsplash.com/photo-1604977046806-8b1a6f1c1f1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 3, ingredients: ["Olive oil", "Lemon juice", "Oregano", "Salt", "Pepper"] },
+                            { title: "Combine Ingredients", description: "In a large bowl, combine the mixed greens, prepared vegetables, and olives. Toss gently to mix.", image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 2, ingredients: ["Mixed greens", "Prepared vegetables", "Kalamata olives"] },
+                            { title: "Add Dressing and Cheese", description: "Pour the dressing over the salad and toss gently to coat. Sprinkle crumbled feta cheese on top.", image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 2, ingredients: ["Prepared dressing", "Feta cheese"] },
+                            { title: "Serve and Enjoy", description: "Serve immediately or refrigerate for up to 2 hours before serving for best texture.", image: "https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 1, ingredients: [] }
+                        ],
+                        tips: [
+                            "For extra flavor, add some chopped fresh parsley or mint.",
+                            "If making ahead, add the dressing just before serving to keep the greens crisp.",
+                            "Add grilled chicken or shrimp to make it a complete meal."
+                        ]
+                    },
+                    'homemade-pizza': {
+                        steps: [
+                            { title: "Prepare the Dough", description: "Dissolve yeast and sugar in warm water. Let stand until creamy, about 5 minutes. Combine with flour, salt, and olive oil to form dough.", image: "https://images.unsplash.com/photo-1604382354936-9c362a1b2586?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 15, ingredients: ["Flour", "Yeast", "Sugar", "Water", "Salt", "Olive oil"] },
+                            { title: "Let Dough Rise", description: "Place dough in oiled bowl, cover with damp cloth, and let rise in warm place until doubled, about 1 hour.", image: "https://images.unsplash.com/photo-1601924582970-9238bcb495d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 60, ingredients: [] },
+                            { title: "Preheat Oven", description: "Preheat oven to 475°F (245°C) with pizza stone or baking sheet inside if using.", image: "https://images.unsplash.com/photo-1573821663912-569905455b1c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 20, ingredients: [] },
+                            { title: "Shape the Dough", description: "Punch down dough and divide in half. Roll each half into a 12-inch circle on floured surface.", image: "https://images.unsplash.com/photo-1601924582970-9238bcb495d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 10, ingredients: [] },
+                            { title: "Add Toppings", description: "Transfer dough to prepared pan. Spread with tomato sauce, sprinkle with cheese and add desired toppings.", image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 5, ingredients: ["Tomato sauce", "Mozzarella cheese", "Toppings of choice"] },
+                            { title: "Bake the Pizza", description: "Bake for 12-15 minutes until crust is golden and cheese is bubbly. Sprinkle with herbs before serving.", image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 15, ingredients: ["Dried basil", "Dried oregano"] }
+                        ],
+                        tips: [
+                            "For a crispier crust, preheat your pizza stone or baking sheet in the oven before baking.",
+                            "Let the dough rest for at least 24 hours in the refrigerator for better flavor development.",
+                            "Use fresh mozzarella for a more authentic taste and texture."
+                        ]
+                    },
+                    'chocolate-lava-cake': {
+                        steps: [
+                            { title: "Prepare Ramekins", description: "Grease four 6-ounce ramekins with butter and dust with cocoa powder. Tap out excess.", image: "https://images.unsplash.com/photo-1556911220-bff31c812dba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 5, ingredients: ["Butter", "Cocoa powder"] },
+                            { title: "Melt Chocolate and Butter", description: "In microwave-safe bowl, melt chocolate and butter together in 30-second intervals, stirring until smooth.", image: "https://images.unsplash.com/photo-1602351447937-745cb720612f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 3, ingredients: ["Semi-sweet chocolate", "Unsalted butter"] },
+                            { title: "Mix Wet Ingredients", description: "In separate bowl, whisk together powdered sugar, eggs, egg yolks, and vanilla until well combined.", image: "https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 5, ingredients: ["Powdered sugar", "Eggs", "Egg yolks", "Vanilla extract"] },
+                            { title: "Combine Mixtures", description: "Whisk the chocolate mixture into the egg mixture until smooth. Gently fold in flour and salt.", image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 3, ingredients: ["All-purpose flour", "Salt"] },
+                            { title: "Bake the Cakes", description: "Divide batter among ramekins. Bake at 425°F for 12-14 minutes until edges are firm but centers are soft.", image: "https://images.unsplash.com/photo-1564355808539-22fda35bed7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 14, ingredients: [] },
+                            { title: "Serve Immediately", description: "Let stand 1 minute, then run knife around edges to loosen. Invert onto plates, dust with powdered sugar and garnish.", image: "https://images.unsplash.com/photo-1564355808539-22fda35bed7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", time: 2, ingredients: ["Powdered sugar", "Raspberries"] }
+                        ],
+                        tips: [
+                            "The cakes can be prepared up to a day ahead and refrigerated. Bring to room temperature before baking.",
+                            "For extra flavor, add a teaspoon of instant espresso powder to the chocolate mixture.",
+                            "Serve with vanilla ice cream or whipped cream for an extra special treat."
+                        ]
+                    }
+                };
+
+                const recipe = recipeDatabase[recipeId];
+                if (!recipe) return '<p>Recipe instructions not available.</p>';
+
+                let stepsHTML = `<div class="mb-8"><h4 class="font-display text-xl font-semibold mb-4">Instructions</h4><div class="steps-container space-y-6">`;
+
+                recipe.steps.forEach((step, index) => {
+                    stepsHTML += `
+                    <div class="step bg-gray-50 p-4 rounded-lg">
+                        <div class="flex items-start mb-3">
+                            <div class="flex-shrink-0 bg-primary-100 text-primary-800 rounded-full h-8 w-8 flex items-center justify-center mr-3 font-medium">${index + 1}</div>
+                            <h5 class="font-medium text-lg">${step.title}</h5>
+                        </div>
+                        ${step.image ? `<img src="${step.image}" alt="Step ${index + 1}" class="w-full h-48 object-cover rounded mb-3">` : ''}
+                        <p class="text-gray-700 mb-3">${step.description}</p>
+                        ${step.time ? `<p class="text-sm text-gray-500"><i class="far fa-clock mr-1"></i> ${step.time} minute${step.time !== 1 ? 's' : ''}</p>` : ''}
+                        ${step.ingredients.length > 0 ? `
+                            <div class="mt-3">
+                                <p class="text-sm font-medium text-gray-700 mb-1">Ingredients needed:</p>
+                                <ul class="text-sm text-gray-600 grid grid-cols-2 gap-1">
+                                    ${step.ingredients.map(ing => `<li class="flex items-center"><i class="fas fa-circle text-xs mr-2 text-primary-500"></i> ${ing}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                    </div>
+                    `;
+                });
+
+                stepsHTML += `</div></div>${recipe.tips.length > 0 ? `
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-lightbulb text-yellow-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h4 class="text-sm font-medium text-yellow-800">Chef's Tips</h4>
+                            <ul class="mt-2 text-sm text-yellow-700 space-y-1">
+                                ${recipe.tips.map(tip => `<li>• ${tip}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>` : ''}<div class="flex justify-between mt-8">
+                    <button id="print-recipe" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 flex items-center">
+                        <i class="fas fa-print mr-2"></i> Print Recipe
+                    </button>
+                    <button id="close-recipe" class="bg-primary-600 text-white px-6 py-2 rounded-md hover:bg-primary-700">
+                        Close
+                    </button>
+                </div>`;
+
+                return stepsHTML;
+            }
+
+            // Print button functionality
+            document.body.addEventListener('click', (event) => {
+                if (event.target && event.target.id === 'print-recipe') {
+                    window.print();
+                }
+
+                if (event.target && event.target.id === 'close-recipe') {
+                    modal.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+/* animations.css */
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(10px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from { 
+        transform: translateY(20px); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateY(0); 
+        opacity: 1; 
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        transform: scale(1); 
+    }
+    50% { 
+        transform: scale(1.05); 
+    }
+}
+
+.recipe-card {
+    animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    opacity: 0; /* Start invisible for animation */
+    transition: all 0.3s ease;
+}
+
+.recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content {
+    animation: slideIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    opacity: 0;
+}
+
+.toast {
+    animation: 
+        slideIn 0.3s ease-out forwards,
+        pulse 0.5s ease-in-out 2.5s;
+    opacity: 0;
+}
+
+/* Star rating animation */
+.star {
+    transition: all 0.2s ease;
+}
+
+.star:hover {
+    transform: scale(1.3);
+}
+
+/* Favorite button animation */
+.favorite-button {
+    transition: all 0.3s ease;
+}
+
+.favorite-button.active {
+    animation: pulse 0.5s ease;
+    color: #f43f5e; /* Rose-500 */
+}
+
+/* Button hover effects */
+.view-recipe-btn, .share-button, .print-button {
+    transition: all 0.2s ease;
+}
+
+.view-recipe-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
+}
+
+.share-button:hover, .print-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Comment form animation */
+.comment-form {
+    transition: all 0.3s ease;
+}
+
+.comment-form:focus-within {
+    transform: translateY(-2px);
+}
